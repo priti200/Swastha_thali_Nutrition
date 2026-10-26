@@ -1,0 +1,25 @@
+# Paths are relative to this file.
+device: auto            # auto | cuda | cpu
+
+segmentation:           # Stage 1: GroundedSAM2
+  grounding_dino: IDEA-Research/grounding-dino-tiny
+  sam2: facebook/sam2.1-hiera-small
+  # GroundingDINO text prompt: lowercase phrases separated by " . "
+  food_prompt: "roti . rice . dal . curry . sabzi . curd . sambar . rasam . papad . pickle . sweet . salad ."
+  plate_prompt: "plate ."
+  box_threshold: 0.30
+  text_threshold: 0.25
+  nms_iou: 0.5
+  max_box_fraction_of_plate: 0.6   # drop "food" boxes that are really the whole plate
+
+classifier:             # Stage 2: encoder + kNN prototype matching
+  encoder: facebook/dinov2-small
+  prototypes: data/prototypes.npz  # built by build_prototypes.py; if missing, GroundingDINO labels are used
+  k: 5
+  min_similarity: 0.35             # below this the segment is labelled "unknown"
+
+weight:                 # Stage 3: placeholder geometric estimator
+  plate_diameter_cm: 28.0          # measure the actual mess plate
+  fallback_px_per_cm: 20.0         # used when no plate is detected
+
+dish_table: data/dish_table.csv    # Stage 4: calorie lookup
