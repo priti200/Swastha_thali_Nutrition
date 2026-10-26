@@ -8,5 +8,20 @@ outputs/
 data/prototypes.npz
 data/prototypes/
 
+# trained weights / checkpoints (too large for git)
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+checkpoints/
+
+# notebooks, editors, OS files
+.ipynb_checkpoints/
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+
 # sample images are re-downloadable with download_samples.py (each has its own Commons licence)
 data/samples/
